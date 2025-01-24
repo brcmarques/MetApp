@@ -38,7 +38,7 @@ export default function Login(){
   
       // Simulação de login (você pode substituir por uma chamada de API real)
       const isValidUser =
-        email === 'brunomarquesag331@gmail.com' && password === 'bcm12345';
+        email === 'a' && password === 'a';
   
       if (isValidUser) {
         // Navegação para a tela principal
