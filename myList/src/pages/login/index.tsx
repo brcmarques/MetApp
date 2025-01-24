@@ -7,6 +7,8 @@ import { themas } from "../../global/themes";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
+import List from "../list";
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 
 
 
@@ -14,6 +16,8 @@ import { Button } from "../../components/button";
 
 
 export default function Login(){
+
+  const navigation = useNavigation<NavigationProp<any>>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,6 +32,7 @@ export default function Login(){
   
       // Validação de campos obrigatórios
       if (!email || !password) {
+        setLoading(false); // Garantir que o indicador de carregamento seja ocultado
         return Alert.alert('Atenção', 'Informe os campos obrigatórios!');
       }
   
@@ -36,18 +41,25 @@ export default function Login(){
         email === 'brunomarquesag331@gmail.com' && password === 'bcm12345';
   
       if (isValidUser) {
-        Alert.alert('Sucesso', 'Logado com sucesso!');
-      } else {
+        // Navegação para a tela principal
+        navigation.reset({
+          index: 0, // Define a nova rota como a inicial
+          routes: [{ name: 'BottomRoutes' }],
+        });
+        } else {
         Alert.alert('Erro', 'Usuário ou senha incorretos.');
       }
     } catch (error) {
       console.error('Erro durante o login:', error);
-      Alert.alert('Erro', 'Ocorreu um erro inesperado. Tente novamente mais tarde.');
+      Alert.alert(
+        'Erro',
+        'Ocorreu um erro inesperado. Tente novamente mais tarde.'
+      );
     } finally {
-      // Garantir que o indicador de carregamento será ocultado
       setLoading(false);
     }
   }
+  
 
   return(
     <SafeAreaView style={style.container}>
@@ -91,7 +103,8 @@ export default function Login(){
           onPress={() => getLogin()}
         />
 
-        <Text style={style.textBotton}>Não tem uma conta? <Text style={{color: themas.colors.primary}}>Crie sua conta!</Text></Text>    
+        <Text style={style.textBotton}>Não tem uma conta? <Text style={{color: themas.colors.primary}}>Crie sua conta!</Text></Text>
+
 
       </View>
     </SafeAreaView>
